@@ -2,8 +2,10 @@ package dbconect;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
+import java.sql.*;
 import java.sql.SQLException;
+
+
 
 import webServer.*;
 
@@ -16,6 +18,7 @@ public class DatabaseHandler extends Config{
 				+dbPort + "/" + dbName;
 		Class.forName("com.mysql.jdbc.Driver");
 		dbConnection = DriverManager.getConnection(connectionString, dbUser, dbPass);
+		System.out.println("connection  "+ connectionString);
 		return dbConnection;
 	}
 	
@@ -23,13 +26,14 @@ public class DatabaseHandler extends Config{
 		String insert="INSERT INTO "+Const.OPERATOR_TABLE 
 				+ " (" + Const.OPERATOR_EMAIL+ "," 
 				+ Const.OPERATOR_NAME +"," +Const.OPERATOR_ACESS +","
-				+Const.OPERATOR_PASSW +") " +"VALUES (?,?,?,?)";	
+				+Const.OPERATOR_PASSW +", "+Const.OPERATOR_TYPE_ID+") " +"VALUES (?,?,?,?,?)";	
 		try {
 			PreparedStatement prSt = getDbConnection().prepareStatement(insert);
 			prSt.setString(1, operator.getPhone());
 			prSt.setString(2, operator.getName());
-			prSt.setString(3, acesscode);
+			prSt.setString(3, "1");
 			prSt.setString(4, operator.getPassword());
+			prSt.setString(5, "1");
 			prSt.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -47,6 +51,7 @@ public class DatabaseHandler extends Config{
 		try {
 			PreparedStatement prSt = getDbConnection().prepareStatement(insert);
 			prSt.setString(1, service.getName());
+			System.out.println(prSt);
 			prSt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -96,9 +101,44 @@ public class DatabaseHandler extends Config{
 		
 	}
 	
+	public void getServices(){
+//		List <Service> services = new ArrayList<Service>();
+		QueueDesk queueDesk = QueueDesk.getInstance();
+		try {
+			Statement stmt = getDbConnection().createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM ticket_type");
+			while(rs.next()) {
+				String name= rs.getString("Ticket_Type_Name");
+				queueDesk.addServiceList(name);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	public void getOperators() {
+		QueueDesk queueDesk = QueueDesk.getInstance();
+		
+		Statement stmt;
+		try {
+			stmt = getDbConnection().createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT * FROM operators;");
+			while(rs.next()) {
+				String name= rs.getString("Operator_Name");
+				String password= rs.getString("Operator_passw");
+				String phone= rs.getString("Operator_email");
+				queueDesk.addOperatorList(phone, password, name);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 /*	public Operator getOperator(int id) {//	}
  *  public Client getClient(int id){}
- *  public Service getService(int id){}
+ *  public Service getServices(int id){}
  *  public Request getRequest(int id){}
  *  public Request updateRequest(Request request){}
  *  public void deleteOperator(Operator operator){}
@@ -106,5 +146,11 @@ public class DatabaseHandler extends Config{
  *  public void deleteService(Service service){}
  *  public void deleteRequest(Request request){}
  *  public void deleteOperator(Operator operator){}
+ *  
+ *  1. отримати всі запроси
+ *  2. створити нові запроси
+ *  3. присвоїти запрос оператору
+ *  4. закрити запрос, змінити статус
+ *  
  */
 }

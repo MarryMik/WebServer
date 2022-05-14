@@ -10,7 +10,8 @@ public class QueueDesk {
 	private List <Service> services = new ArrayList<Service>();
 	private List<Operator> operators = new ArrayList<Operator>();
 	private List<Client> clients = new ArrayList<Client>();
-
+	private DatabaseHandler db = new DatabaseHandler();
+	
 	private static QueueDesk instance;
 
 	private QueueDesk() {
@@ -30,7 +31,6 @@ public class QueueDesk {
 		Client client = new Client(name,phone);
 		clients.add(client);
 		System.out.println("QueueDesk.addClient(), "+client);
-		DatabaseHandler db = new DatabaseHandler();
 		db.addClient(client);
 		return client;
 	}
@@ -51,15 +51,24 @@ public class QueueDesk {
 		Service service = new Service(serviceName);
 		services.add(service);
 		System.out.println("QueueDesk.addService(), "+ service);
-		DatabaseHandler db = new DatabaseHandler();
+		
 		db.addServices(service);
 		return service;
 	} 
+	
+	
+	public void addServiceList(String serviceName) {
+		Service service = new Service(serviceName);
+		services.add(service);
+	}
 	public void resetServices() {
 		services.clear();
 		Service.zeroCounter();
 	}
 	public List<Service> services(){
+		services.clear();
+		Service.zeroCounter();
+		db.getServices();
 		return services;
 	}
 	public Service findByName(String nameService) {
@@ -82,9 +91,13 @@ public class QueueDesk {
 		Operator operator = new Operator(phone, password, name);
 		operators.add(operator);
 		System.out.println("QueueDesk.addOperator(), " + operator);
-		DatabaseHandler db = new DatabaseHandler();
-		db.addOperator(operator, acesscode);
+		db.addOperator(operator, "1");
 		return operator;
+	}
+	
+	public void addOperatorList(String phone, String password, String name) {
+		Operator operator = new Operator(phone, password, name);
+		operators.add(operator);
 	}
 	public void resetOperators() {
 		operators.clear();
@@ -95,6 +108,9 @@ public class QueueDesk {
 	}
 
 	public List<Operator> operators() {
+		operators.clear();
+		Operator.zeroCounter();
+		db.getOperators();
 		return operators;
 	}
 
@@ -119,7 +135,6 @@ public class QueueDesk {
 		Request request = new Request(client,Service);
 		requests.add(request);
 		System.out.println("QueueDesk.addRequest(), " + request);
-		DatabaseHandler db = new DatabaseHandler();
 		db.addRequest(request);
 		return request;
 	}
