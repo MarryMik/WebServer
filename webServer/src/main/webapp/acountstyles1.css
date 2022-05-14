@@ -1,0 +1,179 @@
+.login-section{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.form-login-card{
+    width:100%;
+    padding: 60px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.form-login-wrapper{
+    padding: 40px 40px 40px 40px;
+    width: 100%;
+    height: 450px;
+    background-color: var(--header-color);
+    display: flex;
+    flex-direction: column;
+    border-radius: 4px;
+}
+.form-login-title{
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.login-form-input{
+    width: 100%;
+    height: 40px;
+    margin-bottom:30px;
+    border: 1px solid #CED0DB;
+    border-radius: 4px;
+    padding: 0 4px 0 12px;
+}
+.form-login-button{
+    width: 100px;
+    height: 40px;
+    background-color: var(--button-color);
+    border: solid 0px;
+    border-radius: 4px;
+}
+.form-login-button:hover{
+    background-color: var(--button-hover);
+    color: var(--header-color);
+}
+.other-action{
+    font-size: 12px;
+    color: var(--button-hover);
+    margin: 2px 0 2px 0;
+
+}
+.other-action:hover{
+    color: var(--href-color);
+}
+.button2-wrapper{
+  display: flex;
+  margin:15px 0 0 0;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.other-action-link-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+
+.sign-up-wrapper{
+    display: flex;
+    flex-direction:row;
+}
+.sign-up-left{
+    width:8%;
+}
+.sign-up-right{
+    width:8%;
+}
+.sign-up-form-card{
+    width: 84%;
+    height: 750px;
+    padding: 30px;
+}
+.sign-up-form-wrapper{
+    padding: 40px 40px 40px 40px;
+    width:100%;
+    background-color: var(--header-color);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    height: 645px;
+}
+
+.sign-up-form-title{
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.sigh-up-form-input{
+    width: 100%;
+    height: 40px;
+    margin-bottom:30px;
+    border: 1px solid #CED0DB;
+    border-radius: 4px;
+    padding: 0 4px 0 12px;
+}
+
+.form-sign-up-button{
+    width: 200px;
+    height: 40px;
+    background-color: var(--button-color);
+    border: solid 0px;
+    border-radius: 4px;
+}
+.form-sign-up-button:hover{
+    background-color: var(--button-hover);
+    color: var(--header-color);
+}
+.sign-up-button-wrapper{
+    display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.step-password-section{
+    display: flex;
+    flex-direction:row;
+    min-height:450px;
+}
+
+.left{
+    width:8%;
+}
+.right{
+    width:8%;
+}
+.step-password-form-card{
+    width: 84%;
+    /* height:100%; */
+    padding: 30px 20px 30px 20px;
+}
+.step-password-form-wrapper{
+    padding: 20px;
+    width:100%;
+    background-color: var(--header-color);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.step-password-form-title{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.step-password-input{
+    width: 100%;
+    height: 40px;
+    margin-bottom:30px;
+    border: 1px solid #CED0DB;
+    border-radius: 4px;
+    padding: 0 4px 0 12px;
+}
+
+.step-password-button{
+    width: 200px;
+    height: 40px;
+    background-color: var(--button-color);
+    border: solid 0px;
+    border-radius: 4px;
+}
+.step-password-button:hover{
+    background-color: var(--button-hover);
+    color: var(--header-color);
+}
+.more-info{
+    margin: 15px;
+    color: var(--href-color);
+}
