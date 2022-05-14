@@ -62,4 +62,8 @@ public class Request {
 	public void setService(Service service) {
 		this.service = service;
 	}
+	public static void zeroCounter() {
+		counter=0;
+	}
+
 }

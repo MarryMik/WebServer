@@ -45,6 +45,10 @@ public class QueueDesk {
 		return clients.stream().filter(x -> x.getId() ==id).findAny().orElse(null);
 	}
 	
+	public Client clientByPhone(String phone) {
+		return clients.stream().filter(x->x.getPhone().equals(phone)).findAny().orElse(null);
+	}
+	
 	//***Service***
 	
 	public Service addService(String serviceName) {
@@ -129,7 +133,21 @@ public class QueueDesk {
 		System.out.println("QueueDesk.operator(), " + operator);
 		return result;
 	}
+	public Operator operator(Operator operator, Request request) {
+		Operator result = null;
+		
+		if (operator != null) {
+					request.operator(operator);
+					result = operator;
+		}
+
+		System.out.println("QueueDesk.operator(operator, request), " + operator+ " "+ request);
+		return result;
+	}
 	
+	public Operator operatorByPhone(String phone) {
+		return operators.stream().filter(x -> x.getPhone().equals(phone)).findAny().orElse(null);
+	}
 	//***Request***
 	public Request addRequest(Client client, Service Service) {
 		Request request = new Request(client,Service);
@@ -138,7 +156,11 @@ public class QueueDesk {
 		db.addRequest(request);
 		return request;
 	}
-	
+	public Request addRequestList(Client client, Service service) {
+		Request request = new Request(client, service);
+		requests.add(request);
+		return request;
+	}
 	public void close(Operator operator) {
 		for (Request request : requests) {
 			if (request.getOperator() == operator && request.status() == Request.Status.INPROGRESS) {
@@ -150,6 +172,9 @@ public class QueueDesk {
 		System.out.println("QueueDesk.close(), " + operator);
 	}
 	public List<Request> allRequests(){
+		requests.clear();
+		Request.zeroCounter();
+		db.getRequests();
 		return requests;
 	}
 
