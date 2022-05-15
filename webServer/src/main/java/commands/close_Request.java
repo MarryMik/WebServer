@@ -19,7 +19,7 @@ public class close_Request extends HttpServlet {
 		try {
 			int closeID = Integer.valueOf(param);
 			Operator operator = queueDesk.operators().stream().filter(x->x.getId()==closeID).findAny().orElse(null);
-			queueDesk.close(operator);
+			queueDesk.closeInDB(operator);
 			result= queueDesk.requests(operator).toString();
 		}catch(Exception e) {
 			result = "Invalid operator ID: " + param;

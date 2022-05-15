@@ -125,6 +125,7 @@ public class QueueDesk {
 				if (request.status() == Request.Status.NEW) {
 					request.operator(operator);
 					result = operator;
+					db.assignRequest(operator);
 					break;
 				}
 			}
@@ -138,7 +139,7 @@ public class QueueDesk {
 		
 		if (operator != null) {
 					request.operator(operator);
-					result = operator;
+					result = operator;					
 		}
 
 		System.out.println("QueueDesk.operator(operator, request), " + operator+ " "+ request);
@@ -168,9 +169,20 @@ public class QueueDesk {
 				break;
 			}
 		}
-
 		System.out.println("QueueDesk.close(), " + operator);
 	}
+	
+	public void closeInDB(Operator operator) {
+			db.closeRequestbyOperator(operator);
+			for (Request request : requests) {
+				if (request.getOperator() == operator && request.status() == Request.Status.INPROGRESS) {
+					request.close();
+					break;
+				}
+			}
+			System.out.println("QueueDesk.closeInDB(), " + operator);
+		}
+	
 	public List<Request> allRequests(){
 		requests.clear();
 		Request.zeroCounter();

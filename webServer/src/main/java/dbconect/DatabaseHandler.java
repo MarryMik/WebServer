@@ -4,7 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.*;
 import java.sql.SQLException;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 import webServer.*;
@@ -61,38 +62,16 @@ public class DatabaseHandler extends Config{
 	
 	public void addRequest(Request request) {
 			
-		//get request status
-		String status;
-		if(request.status().equals(Request.Status.CLOSED)) {
-			status="3";
-		}else if (request.status().equals(Request.Status.INPROGRESS)) {
-			status="2";
-		}else {
-			status="1";
-		}
+		String status="1";
 		//get id service (ticket_type)
-		Statement stmt;
-		String idService=null;
-		try {
-			stmt = getDbConnection().createStatement();
-			ResultSet rs1 = stmt.executeQuery("SELECT Ticket_Type_ID FROM your_contract.ticket_type WHERE Ticket_Type_Name='"+request.getService().getName()+"'");
-			idService = rs1.getString("Ticket_Type_ID");
-		} catch (ClassNotFoundException | SQLException e1) {
-			e1.printStackTrace();
-		}
+		String idService=getIdServicebyName(request.getService().getName());
 		//get id client
-		Statement stmt1;
-		String idClient=null;
-		try {
-			stmt1 = getDbConnection().createStatement();
-			ResultSet rs2 = stmt1.executeQuery("SELECT Client_ID FROM your_contract.clients  WHERE PHONE_NUMBER='"+request.getClient().getPhone()+"'");
-			idClient = rs2.getString("Client_ID");
-		} catch (ClassNotFoundException | SQLException e1) {
-			e1.printStackTrace();
-		}
+		String idClient= this.getIdClientbyPhone(request.getClient().getPhone());
+		
 		//add request
 		String insert ="INSERT INTO "+ Const.TICKETS_TABLE+" ("+Const.TICKETS_CL_ID
 				+", "+Const.TICKETS_STATUS_ID+", "+Const.TICKETS_TYPE_ID+") VALUES(?,?,?)";	
+		if(idClient !=null|| idService !=null) {
 		try {
 			PreparedStatement prSt = getDbConnection().prepareStatement(insert);
 			prSt.setString(1, idClient);
@@ -106,9 +85,138 @@ public class DatabaseHandler extends Config{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		}else {
+			System.out.println("error");
+		}
+	}
+	public String getIdServicebyName(String name) {
+		Statement stmt;
+		String idService=null;
+		try {
+			stmt = getDbConnection().createStatement();
+			ResultSet rs1 = stmt.executeQuery("SELECT Ticket_Type_ID FROM ticket_type WHERE Ticket_Type_Name='"+name+"'");
+			if(rs1.next()) {
+			idService = rs1.getString("Ticket_Type_ID");
+			System.out.println("the id of service: "+idService);
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return idService;
 	}
 	
-	public void addClient(Client client) {
+	public String getIdClientbyPhone(String phone) {
+		Statement stmt1;
+		String clientId=null;
+		try {
+			stmt1 = getDbConnection().createStatement();
+			System.out.println("SELECT Client_ID FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
+			ResultSet rs2 = stmt1.executeQuery("SELECT Client_ID FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
+			if(rs2.next()) {
+			 clientId = rs2.getString("Client_ID");
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return clientId;
+	}
+	
+	public String getIdOperatorbyPhone(String phone) {
+		Statement stmt1;
+		String operatorId=null;
+		try {
+			stmt1 = getDbConnection().createStatement();
+			ResultSet rs2 = stmt1.executeQuery("SELECT Operator_ID FROM operators WHERE Operator_email='"+phone+"'");
+			if(rs2.next()) {
+				operatorId = rs2.getString("Operator_ID");
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return operatorId;
+	}
+	
+	public String getIdRequestbyStatus(String status) {
+		Statement stmt1;
+		String requestId=null;
+		try {
+			stmt1 = getDbConnection().createStatement();
+			ResultSet rs2 = stmt1.executeQuery("SELECT Ticket_ID FROM your_contract.tickets WHERE Ticket_Status_ID='"+status+"'");
+			if(rs2.next()) {
+				requestId = rs2.getString("Ticket_ID");
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return requestId;
+	}
+	
+	public String getIdRequestForClosing(String clientPhone, String status, String operatorLogin) {
+		Statement stmt;
+		String requestId=null;
+		try {
+			stmt = getDbConnection().createStatement();
+			ResultSet rs2 = stmt.executeQuery("SELECT Ticket_ID FROM your_contract.requests "
+			+"WHERE PHONE_NUMBER='"+clientPhone+"' AND Operator_email='"+operatorLogin+"' AND Ticket_Status_Name='"+status+"';");
+			if(rs2.next()) {
+				requestId = rs2.getString("Ticket_ID");
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		return requestId;
+	}
+	
+	
+	public void getRequestsbyOperator(Operator operator) {
+		QueueDesk queueDesk = QueueDesk.getInstance();
+		Statement stmt;
+		try {
+			stmt = getDbConnection().createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT PHONE_NUMBER, Ticket_Type_Name, Ticket_Status_Name, Operator_email"
+			+" FROM requests WHERE Operator_email='"+operator.getPhone()+"';");
+			while(rs.next()) {
+				String clientPhone= rs.getString("PHONE_NUMBER");
+				String serviceName= rs.getString("Ticket_Type_Name");
+				String status= rs.getString("Ticket_Status_Name");
+				String operatorLogin= rs.getString("Operator_email");
+				Client client = queueDesk.clientByPhone(clientPhone);
+				Service service = queueDesk.findByName(serviceName);
+				Request request = queueDesk.addRequestList(client, service);
+				System.out.println(request);
+				if(operatorLogin!=null ) {
+					Operator operator1 = queueDesk.operatorByPhone(operatorLogin);
+					   operator1 = queueDesk.operator(operator1, request);
+					   System.out.println(operator1);
+					   if(status.equals("CLOSED")) {
+							queueDesk.close(operator1);
+						}
+			       }
+				
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public List<String> getListOfRequestsbyOperator(Operator operator) {
+		Statement stmt;
+		List <String> requestsByOperator = new ArrayList<String>();
+		try {
+			stmt = getDbConnection().createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT Ticket_ID"
+			+" FROM requests WHERE Operator_email='"+operator.getPhone()+"' and Ticket_Status_Name='INPROGRESS';");
+			while(rs.next()) {
+				String requestId=rs.getString("Ticket_ID");
+				requestsByOperator.add(requestId);
+			}
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return requestsByOperator;
+	}
+	
+ 	public void addClient(Client client) {
 		String insert = "INSERT INTO "+Const.CLIENT_TABLE
 				+" ("+Const.CLIENT_NAME+", "+Const.CLIENT_PHONE+" ) VALUES (?,?)";
 		try {
@@ -188,8 +296,83 @@ public class DatabaseHandler extends Config{
 		}
 		
 	}
+	
+	public void assignRequest (Operator operator) {
+		//id request by status 'NEW'
+		String idRequest= this.getIdRequestbyStatus("1");
+		//id operator by phone
+		String idOperator= this.getIdOperatorbyPhone(operator.getPhone());
+
+		String isActive="1";
+		
+		String insert = "INSERT INTO "+Const.TICKETS_ASSIGNMENTS_TABLE
+				+" ("+Const.TICKETS_ASSIGNMENTS_ID+", "+Const.TICKETS_ASSIGNMENTS_OPERATOR_ID
+				+", "+Const.TICKETS_ASSIGNMENTS_IS_ACTIVE+" ) VALUES (?,?,?)";
+		try {
+			PreparedStatement prSt = getDbConnection().prepareStatement(insert);
+			prSt.setString(1, idRequest);
+			prSt.setString(2, idOperator);
+			prSt.setString(3, isActive);
+			prSt.executeUpdate();
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+//	public void closeRequest(Request request, Operator operator){
+//		String idRequest=this.getIdRequestForClosing(request.getClient().getPhone(), "INPROGRESS", operator.getPhone());
+//		String idOperator=this.getIdOperatorbyPhone(operator.getPhone());
+//		String update ="UPDATE `your_contract`.`tickets_assignments` SET `Is_Active` = '0'"
+//	+" WHERE (`Ticket_ID` = '?') and (`OPERATOR_ID` = '?');";
+//		try {
+//			PreparedStatement prSt = getDbConnection().prepareStatement(update);
+//			prSt.setString(1, idRequest);
+//			prSt.setString(2, idOperator);
+//			prSt.executeUpdate();
+//		} catch (ClassNotFoundException | SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		
+//		String update2 ="UPDATE `your_contract`.`tickets` SET `Ticket_Status_ID` = '3' WHERE (`Ticket_ID` = '?');";
+//		try {
+//			PreparedStatement prSt1 = getDbConnection().prepareStatement(update2);
+//			prSt1.setString(1, idRequest);
+//			prSt1.executeUpdate();
+//		} catch (ClassNotFoundException | SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}	
+//		
+//	}
+	
+	public void closeRequestbyOperator(Operator operator) {
+		List <String> requestsByOperator = new ArrayList<String>();
+		requestsByOperator =this.getListOfRequestsbyOperator(operator);
+		String idRequest = requestsByOperator.get(0);
+		String idOperator=this.getIdOperatorbyPhone(operator.getPhone());
+		System.out.println("idRequest="+idRequest+" idOperator="+idOperator);
+					try {
+						PreparedStatement prSt = getDbConnection().prepareStatement("UPDATE `your_contract`.`tickets_assignments` "
+								+"SET `Is_Active` = '0' WHERE (`Ticket_ID` = '"+idRequest+"') and (`OPERATOR_ID` = '"+idOperator+"');");
+						prSt.executeUpdate();
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+					
+					String update2 ="UPDATE `your_contract`.`tickets` SET `Ticket_Status_ID` = '3' WHERE (`Ticket_ID` = '"+idRequest+"');";
+					try {
+						PreparedStatement prSt1 = getDbConnection().prepareStatement(update2);
+						prSt1.executeUpdate();
+					} catch (ClassNotFoundException | SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}	
+	}
 /*	
- *  public Request updateRequest(Request request){}
+ *  public Request closeRequest(Request request){}
  *  public void deleteOperator(Operator operator){}
  *  public void deleteClient(Client client){}
  *  public void deleteService(Service service){}
