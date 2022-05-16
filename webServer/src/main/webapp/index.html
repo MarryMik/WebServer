@@ -5,17 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your Contract</title>
-    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style.css">
-    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./styles1.css">
-    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./styles2.css">
+    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style/style.css">
+    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./style/styles1.css">
+    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./style/styles2.css">
 
 
-    <!-- <link rel="stylesheet" media="screen and (min-device-width: 800px)" href="800.css" />
-    <link rel='stylesheet' media='screen and (min-width: 701px) and (max-width: 900px)' href='css/medium.css' />
-     -->
     <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
-    <script type="text/javascript" src="https://livejs.com/live.js"></script>
-    <script src="./script.js" defer></script>
+   
+    <script src="./js/script.js" defer></script>
 </head>
 <style>
         html,
@@ -23,7 +20,7 @@
         height: 100%;
     }
 </style>
-<body>
+<body >
     <header class="header">
         <nav class="nav-bar">
             <div class ="nav-bar-wrapper">
@@ -55,7 +52,7 @@
                         <h2 class="form-title">
                             Електронна черга для питань з договорами
                         </h2>
-                        <form action="submit" class="registration-form">
+                        <form  class="registration-form" id="request-form">
                             <label for="name" class="form-label">Ім'я</label>
                             <input type="text" class="form-input" id="name" name="name" placeholder="Введіть повне ім'я" required>
                             
@@ -63,7 +60,7 @@
                             <input type="tel" class="form-input" id="phone" name="phone"  placeholder="+38 (___) ___ __ __ " required>
 
                             <label for="select" class="form-label">Оберіть послугу</label>
-                            <select name="select" id="select" class="form-input-select" required>
+                            <select name="selected" id="select" class="form-input-select" required>
                                 <!-- <option value="consultation">Загальна консультація</option>
                                 <option value="public">Публічний договір</option>
                                 <option value="accession">Договір приєднання</option>
@@ -71,9 +68,9 @@
                                 <option value="thirdPerson">Договір на користь третьої особи</option> -->
                             </select>
                             <div class="button-wrapper">
-                                <button class="form-submit-button" type="submit">Подати заявку</button>
+                                <button class="form-submit-button"  type="submit">Подати заявку</button>
                             </div>
-                            
+                            <label id="name-list"></label>
                         </form>
                     </div>
                 </div>

@@ -17,11 +17,17 @@ public class add_request extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		String result = "";
 		QueueDesk queueDesk = QueueDesk.getInstance();
 		String clientName=request.getParameter("client_name");
 		String clientPhone=request.getParameter("client_phone");
 		String serviceName=request.getParameter("selected_option");
+		if(clientName==null && clientPhone==null) {
+			clientName=request.getParameter("name");
+			clientPhone=request.getParameter("phone");
+			serviceName=request.getParameter("selected");
+		}
 		Service service = queueDesk.findByName(serviceName);
 		Client client = queueDesk.addClient(clientName, clientPhone);
 		Request reques = queueDesk.addRequest(client, service);

@@ -5,23 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Queue</title>
-    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style.css">
-    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./styles1.css">
-    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./styles2.css">
+    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style/style.css">
+    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./style/styles1.css">
+    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./style/styles2.css">
 
-    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./queuestyle.css">
-    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./queuestyle1.css">
-    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./queuestyle2.css">
+    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style/queuestyle.css">
+    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./style/queuestyle1.css">
+    <link rel="stylesheet" media="screen  and (max-width:554px)" href="./style/queuestyle2.css">
     <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
     <script type="text/javascript" src="https://livejs.com/live.js"></script>
+    <script src="./js/queuePrint.js" defer></script>
 </head>
-<style>
-    html,
-    body{
-        height: 100%;
-        
-    }
-</style>
+
 <body>
     <header class="header">
         <nav class="nav-bar">
@@ -45,56 +40,18 @@
     <div class="page-wrapper">
         <section class="queue-section">
             <div class="left"></div>
-            <div class="queue-list-wrapper">
+            <div class="queue-list-wrapper" id="queue-list-wrapper">
                 <h2 class="queue-title">Черга заяв</h2>
                 <div class="applications-title-wrapper">
                     <h4 class="title-applications" id="title-id">№</h4>
                     <h4 class="title-applications" id="title-type">Послуга</h4>
                     <h4 class="title-applications" id="title-status">Статус</h4>
                 </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">1</h4>
-                    <h4 class="application-data" id="type-application">загальна консультація</h4>
-                    <h4 class="application-data" id="status-application">розглядається</h4>
-                </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">2</h4>
-                    <h4 class="application-data" id="type-application">публічний договір</h4>
-                    <h4 class="application-data" id="status-application">розглядається</h4>
-                </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">3</h4>
-                    <h4 class="application-data" id="type-application">договір приєднання</h4>
-                    <h4 class="application-data" id="status-application">розглядається</h4>
-                </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">4</h4>
-                    <h4 class="application-data" id="type-application">договір про користь третьої особи</h4>
-                    <h4 class="application-data" id="status-application">очікується</h4>
-                </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">5</h4>
-                    <h4 class="application-data" id="type-application">попередній договір</h4>
-                    <h4 class="application-data" id="status-application">очікується</h4>
-                </div>
-                <div class="application-wrapper">
-                    <h4 class="application-data" id="id-application">6</h4>
-                    <h4 class="application-data" id="type-application">публічний договір</h4>
-                    <h4 class="application-data" id="status-application">очікується</h4>
-                </div>
-
-                <div class="buttons-wrapper">
-                    <a href="" class="button-down-link"><i class="button-down"></i></a>
-                    <a href="" class="button-up-link"><i class="button-up"></i></a>
-                </div>
-            </div>
+                <div id="requests"></div>
+             </div>
             <div class="right"></div>
         </section>
     </div>
-    <footer class="footer">
-        <span class="footer-credentials">
-            © 2022 Your Contract. Всі права захищені.
-        </span>
-    </footer>
+    
 </body>
 </html>

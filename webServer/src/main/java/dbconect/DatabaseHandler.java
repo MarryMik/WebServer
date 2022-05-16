@@ -121,6 +121,7 @@ public class DatabaseHandler extends Config{
 		return clientId;
 	}
 	
+	
 	public String getIdOperatorbyPhone(String phone) {
 		Statement stmt1;
 		String operatorId=null;
@@ -217,6 +218,8 @@ public class DatabaseHandler extends Config{
 	}
 	
  	public void addClient(Client client) {
+ 		
+ 		
 		String insert = "INSERT INTO "+Const.CLIENT_TABLE
 				+" ("+Const.CLIENT_NAME+", "+Const.CLIENT_PHONE+" ) VALUES (?,?)";
 		try {
@@ -372,17 +375,10 @@ public class DatabaseHandler extends Config{
 					}	
 	}
 /*	
- *  public Request closeRequest(Request request){}
  *  public void deleteOperator(Operator operator){}
  *  public void deleteClient(Client client){}
  *  public void deleteService(Service service){}
  *  public void deleteRequest(Request request){}
  *  public void deleteOperator(Operator operator){}
- *  
- 
- *  3. присвоїти запрос оператору
- *  4. закрити запрос, змінити статус
- *  
- *  
  */
 }
