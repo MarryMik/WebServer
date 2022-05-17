@@ -2,20 +2,32 @@
 const divRequests = document.getElementById('requests');
 let divIdCounter=0;
 //print the queue
-fetch('http://localhost:8080/webServer/get_requests')
-.then((responce)=>responce.json())
-.then((json) => {
-	newH4 = json;
-	console.log(newH4);
-	
-	newH4.forEach(h4 =>{
-		createNewDiv();
-		console.log(h4.id+" "+h4.service.name+" "+h4.status);
-		return createNewH4s(h4.id, h4.service.name, h4.status)
-	})
-});
 
-function createNewDiv(){
+
+
+
+       function postName() {
+        const params = new URLSearchParams();
+        params.append('user_phone', document.getElementById('userPhone').value);
+
+        const fetchSettings = {method: 'POST', body: params};
+        
+         fetch('http://localhost:8080/webServer/request_by_operator', fetchSettings)
+         .then((response)=>response.json())
+		 .then((json) => {
+			newH4 = json;
+			console.log(newH4);
+			newH4.forEach(h4 =>{
+			createNewDiv();
+			console.log(h4);
+			return createNewH4s(h4.client.name+" "+h4.client.phone,h4.service.name,h4.status);
+	})
+	});
+
+
+      }
+      
+ function createNewDiv(){
 	divIdCounter++;
 	let createdDiv = document.createElement("div");
 	createdDiv.className="application-wrapper";
@@ -25,8 +37,7 @@ function createNewDiv(){
 }
 function appendDiv(div){
 	divRequests.append(div);
-}
-
+}     
 
 function createNewH4s(id, service, status){
 	
@@ -54,5 +65,21 @@ function appendH4(id, service, status){
 	divRequest.append(status);
 }
 
+
+//next request -> close and handle
+function closeTicket(){
+	 const params = new URLSearchParams();
+        params.append('phone', document.getElementById('userPhone').value);
+        const fetchSettings = {method: 'POST', body: params};
+fetch('http://localhost:8080/webServer/close_Request', fetchSettings);
+nextTicket();
+}
+
+function nextTicket(){
+	 const params = new URLSearchParams();
+        params.append('phone', document.getElementById('userPhone').value);
+        const fetchSettings = {method: 'POST', body: params};
+         fetch('http://localhost:8080/webServer/requestToOperator', fetchSettings);
+}
 
 

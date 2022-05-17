@@ -7,6 +7,7 @@ import dbconect.*;
 
 public class QueueDesk {
 	private List<Request> requests = new ArrayList<Request>();
+	private List<Request> requestsByOperator = new ArrayList<Request>();
 	private List <Service> services = new ArrayList<Service>();
 	private List<Operator> operators = new ArrayList<Operator>();
 	private List<Client> clients = new ArrayList<Client>();
@@ -110,6 +111,11 @@ public class QueueDesk {
 	public Operator checkOperator(int id) {
 		return operators.stream().filter(x -> x.getId() == id).findAny().orElse(null);
 	}
+	
+	public Operator loginAccount(String login, String password) {
+		Operator operator=db.getOperatorByLogin(login, password);
+		return operator;
+	}
 
 	public List<Operator> operators() {
 		operators.clear();
@@ -147,7 +153,23 @@ public class QueueDesk {
 	}
 	
 	public Operator operatorByPhone(String phone) {
+		
 		return operators.stream().filter(x -> x.getPhone().equals(phone)).findAny().orElse(null);
+	}
+	public Operator dbOperatorByPhone(String phone) {
+		Operator operator = db.getOperatorByphone(phone);
+		return operator;
+	}
+	
+	public List<Request> dbRequestsOperatorByPhone(String phone) {
+		requestsByOperator.clear();
+		db.getListOfRequestsbyOperatorPhone(phone);
+		return requestsByOperator;
+	}
+	public Request addRequestListOperator(Client client, Service service) {
+		Request request = new Request(client, service);
+		requestsByOperator.add(request);
+		return request;
 	}
 	//***Request***
 	public Request addRequest(Client client, Service Service) {
@@ -162,6 +184,7 @@ public class QueueDesk {
 		requests.add(request);
 		return request;
 	}
+	
 	public void close(Operator operator) {
 		for (Request request : requests) {
 			if (request.getOperator() == operator && request.status() == Request.Status.INPROGRESS) {

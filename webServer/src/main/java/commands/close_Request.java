@@ -16,6 +16,7 @@ public class close_Request extends HttpServlet {
 		String result="";
 		QueueDesk queueDesk = QueueDesk.getInstance();
 		String param = request.getParameter("closeID");
+		if(param!=null) {
 		try {
 			int closeID = Integer.valueOf(param);
 			Operator operator = queueDesk.operators().stream().filter(x->x.getId()==closeID).findAny().orElse(null);
@@ -24,7 +25,16 @@ public class close_Request extends HttpServlet {
 		}catch(Exception e) {
 			result = "Invalid operator ID: " + param;
 		}
-		
+		}else {
+			String phone = request.getParameter("phone");
+			try {
+				Operator operator = queueDesk.dbOperatorByPhone(phone);
+				queueDesk.closeInDB(operator);
+				result= queueDesk.requests(operator).toString();
+			}catch(Exception e) {
+				result = "Invalid operator ID: " + phone;
+			}
+		}
 		
 		response.setContentType("text/plain;charset=UTF-8");
 		response.getWriter().write(result);

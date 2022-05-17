@@ -21,6 +21,7 @@ public class requestToOperator extends HttpServlet {
 		QueueDesk queueDesk = QueueDesk.getInstance();
 
 		String param = request.getParameter("operatorId");
+		if(param!=null) {
 		try {
 			int handlerId = Integer.valueOf(param);
 			Operator handler = queueDesk.operators().stream().filter(x -> x.getId() == handlerId).findAny()
@@ -33,6 +34,22 @@ public class requestToOperator extends HttpServlet {
 			}
 		} catch (Exception e) {
 			result = "Invalid operator ID: " + param;
+		}
+		}else {
+			String phone = request.getParameter("phone");
+			System.out.println("queueDesk.dbOperatorByPhone(phone)="+phone);
+			try {
+				Operator handler = queueDesk.dbOperatorByPhone(phone);
+				handler = queueDesk.operator(handler);
+				if (handler != null) {
+					result = "operator: " + handler;
+				} else {
+					result = "Unknown operator: " + phone + " or queue is empty";
+				}
+			} catch (Exception e) {
+				result = "Invalid operator ID: " + phone;
+			}
+			
 		}
 		response.setContentType("text/plain;charset=UTF-8");
 		response.getWriter().write(result);

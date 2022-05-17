@@ -25,7 +25,18 @@ function appendOption(option){
 	selectEl.append(option);
 }
 
-
+fetch('http://localhost:8080/webServer/get_requests')
+.then((response) => response.json())
+.then((json) => {
+	newOptions = json;
+	console.log(newOptions);
+});
+fetch('http://localhost:8080/webServer/CommandOperators')
+.then((response) => response.json())
+.then((json) => {
+	newOptions = json;
+	console.log(newOptions);
+});
 
 const myForm =document.getElementById('request-form');
 myForm.addEventListener('submit', function(e){
@@ -40,6 +51,7 @@ myForm.addEventListener('submit', function(e){
  
       
   });
+
 
 
 

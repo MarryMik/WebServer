@@ -5,16 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign in</title>
-    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style.css">
-    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./styles1.css">
-    <link rel="stylesheet" media="screen and (max-width:554px)" href="./styles2.css">
+    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style/style.css">
+    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./style/styles1.css">
+    <link rel="stylesheet" media="screen and (max-width:554px)" href="./style/styles2.css">
 
-    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./acoountstyle.css" >
-    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./acountstyles1.css">
-    <link rel="stylesheet" media="screen and (max-width:554px)"href="./accountstyles2.css">
+    <link rel="stylesheet" media="screen and (min-width: 944px) " href="./style/acoountstyle.css" >
+    <link rel="stylesheet" media="screen and (min-width: 554px) and (max-width:944px)" href="./style/acountstyles1.css">
+    <link rel="stylesheet" media="screen and (max-width:554px)"href="./style/accountstyles2.css">
     <link href="http://fonts.cdnfonts.com/css/roboto" rel="stylesheet">
-    <script type="text/javascript" src="https://livejs.com/live.js"></script>
-   
+    
+    <script src="./js/login.js" defer></script>
 </head>
 <style>
     html,
@@ -49,16 +49,16 @@
                 <div class="form-login-card">
                     <div class="form-login-wrapper">
                         <h2 class="form-login-title">Вхід</h2>
-                        <form action="submit" class="login-form">
+                        <form action="process1" class="login-form" id="login-form">
                             <label for="login" class="login-form-label">Логін</label>
                             <input type="text" class="login-form-input" name="login" id="login" placeholder="Введіть логін" required>
                             <label for="password" class="login-form-label">Пароль</label>
                             <input type="password" class="login-form-input" name="password" id="password" placeholder="Введіть пароль" required>
                             <div class="button2-wrapper">
-                                <button class="form-login-button" type="submit">Увійти</button>
+                                <button  class="form-login-button" type="submit">Увійти</button>
                                 <div class="other-action-link-wrapper">
-                                    <a href="password.html" class="other-action-link"><p class="other-action">Забули пароль</p></a>
-                                    <a href="registration.html" class="other-action-link"><p class="other-action">Зареєструватися</p></a>
+                                    <!--<a href="password.html" class="other-action-link"><p class="other-action">Забули пароль</p></a>-->
+                                    <!--<a href="registration.html" class="other-action-link"><p class="other-action">Зареєструватися</p></a>-->
                                 </div>
                             </div>
                         </form>

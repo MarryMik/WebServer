@@ -108,7 +108,7 @@ i.nav-menu-item:hover{
 }
 .image-selected{
     width: 50%;
-    /* background-image: url('/assets/img/BigContract.svg'); */
+    background-image: url('../assets/img/BigContract.svg'); 
     background-size:contain;
     background-repeat: no-repeat;
     background-position: center;

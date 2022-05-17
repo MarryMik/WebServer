@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+
 import webServer.*;
 
 
@@ -15,19 +18,22 @@ public class request_by_operator extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String result = "";
+
 		QueueDesk queueDesk = QueueDesk.getInstance();
 		String param = request.getParameter("operator_phone");
-		try {
-			
-			Operator operator = queueDesk.operators().stream().filter(x -> x.getPhone().equals(param)).findAny()
-					.orElse(null);
-			result = queueDesk.requests(operator).toString();
-		} catch (Exception e) {
-			result = "Invalid operator phone: " + param;
+
+		String json;
+		if(param!=null) {
+			json = new Gson().toJson(queueDesk.dbRequestsOperatorByPhone(param));
+
+		}else {
+			param = request.getParameter("user_phone");
+			json = new Gson().toJson(queueDesk.dbRequestsOperatorByPhone(param));
+
 		}
+		
 		response.setContentType("text/plain;charset=UTF-8");
-		response.getWriter().write(result);
+		response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
