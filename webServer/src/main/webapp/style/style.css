@@ -1,0 +1,173 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+:root{
+    --header-color: #FFFFFF;
+    --button-color: #B4DDC0;
+    --button-hover: #156162;
+    --href-color: #7B0063;
+    --text-color: #000000;
+}
+
+/* html,
+body{
+    height: 100%;
+} */
+
+body{
+    font-family: Roboto;
+    background: linear-gradient(0deg, rgba(132,164,190,1) 0%, rgba(163,166,191,1) 51%, rgba(201,172,192,1) 100%);
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+    /* min-height: 650px; */
+}
+
+.header,.page-wrapper, .registration-section{
+    width: 100%;
+    margin: 0 auto;
+    min-width: 944px;
+}
+
+
+.header {
+ background-color: var(--header-color);
+ height: 64px;
+ flex: 0 0 auto;
+}
+.nav-bar{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.nav-logo-wrapper {
+    position: relative;
+    padding-left: 80px;
+}
+.nav-logo{
+    position: absolute;
+    background-image: url('../assets/img/Contract2.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:50px;
+    height: 60px;
+    left: -70px;
+    top: -15px;
+}
+.nav-title {
+    display: inline-block;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 2em;
+    margin-top: 12px;
+}
+.nav-menu-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+span.nav-menu-item{
+    margin: 18px 6px 0 6px;
+}
+#last-span-nav-menu-item{
+    margin-right: 58px;
+}
+i.nav-menu-item{
+    position: absolute;
+    background-image: url('../assets/img/icon-account.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:34px;
+    height: 34px;
+    left: -50px;
+    top: 10px;
+}
+i.nav-menu-item:hover{
+    background-image: url('../assets/img/icon-account-hover.svg');
+}
+.registration-form-wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.form-card{
+    min-width: 50%;
+    width: 30%; 
+    padding: 40px;
+}
+.form-wrapper{
+    background-color: var(--header-color);
+    
+    height: 500px;
+    border-radius: 15px;
+    padding: 40px; 
+}
+.image-selected{
+    width: 50%;
+    background-image: url('../assets/img/BigContract.svg'); 
+    background-size:contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.form-title{
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.registration-form{
+    height: 340px;
+}
+.form-input, .form-input-select{
+    height: 40px;
+    width: 100%;
+    margin-bottom:30px;
+    border: 1px solid #CED0DB;
+    border-radius: 4px;
+    padding: 0 4px 0 12px;
+    
+
+}
+.button-wrapper{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-submit-button{
+    width: 200px;
+    height: 44px;
+    background-color: var(--button-color);
+    border: solid 0px;
+    border-radius: 4px;
+       
+}
+.form-submit-button:hover{
+    background-color: var(--button-hover);
+    color: var(--header-color);
+}
+.page-wrapper{
+    flex: 1 0 0;
+}
+.footer {
+    flex: 1 0 auto;
+    position: absolute;
+    padding: 20px 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+a:hover{
+    color: var(--href-color);
+}
+a{
+    text-decoration:none;
+    color: var(--text-color);
+}

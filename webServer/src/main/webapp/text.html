@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Insert title here</title>
+<script src="./js/script1.js" defer></script>
+
+</head>
+<body>
+	<h2>YourContract</h2>
+	<h3>Services </h3>
+	<p>
+		<a href="reset_services">Reset Services</a>
+	</p>
+	<p>
+		<a href="CommandServices">GET: get services</a>
+	</p>
+	Add new service
+		<form action="add_service">
+		Name: <input type="text" name="service_name"/><input type="submit"/>
+		</form>
+	<h3>Operators</h3>
+	<p>
+		<a href="reset_operators">Reset Operators</a>
+	</p>
+	<p>
+		<a href="CommandOperators">GET: get operators</a>
+	</p>
+	New operator
+		<form action="add_operator">
+			Name: <input type="text" name="operator_name"/>
+			Phone: <input type="text" name="operator_phone"/>
+			Password: <input type="text" name="operator_password"/>
+			Access code:  
+			<input type="submit"/>
+		</form><br>
+	GET: operators by id
+	<form action="operatorById">
+		<input type="text" name="handler" value="1" /> <input type="submit" />
+	</form>
+	<h3>Requests</h3>
+	<p>
+		<a href="get_requests">GET: get requests</a>
+	</p>
+	New Request
+		<form action="add_request">
+			Client's name: <input type="text" name="client_name"/>
+			Phone: <input type="text" name="client_phone"/>
+			Service: <select class="services" name="selected_option" id="select">
+			</select>
+			<input type="submit"/>
+		</form><br>
+		<form action="add_request_id_service">
+			Client's name: <input type="text" name="client_name"/>
+			Phone: <input type="text" name="client_phone"/>
+			ServiceID:  <input type="text" name="service_id"/>
+			<input type="submit"/>
+		</form><br>
+	Assign a request
+		<form action="requestToOperator">
+			<input type="text" name="operatorId" value="1" /> <input type="submit" />
+		</form><br>
+	Close a request by id of operator
+		<form action="close_Request">
+		 ID:<input type="text" name="closeID"/><input type="submit"/>
+		</form><br>
+	GET: requests by status
+		<form action="request_by_status">
+		 	<select id="status" name="status">
+		 		<option>NEW</option>
+		 		<option>INPROGRESS</option>
+		 		<option>CLOSED</option>
+		 	</select>
+		<input type="submit">
+		</form><br>
+		
+	GET: requests by phone of operator
+		<form action="request_by_operator">
+		Phone: <select id="operator_phone" name="operator_phone"></select>
+		<input type="submit"/>
+		</form><br>
+		
+	GET: requests by id of operator
+		<form action="request_by_operator_id">
+		ID: <input type="text" id="operator_id" name="operator_id"/>
+		<input type="submit"/>
+		</form>
+	
+</body>
+</html>
