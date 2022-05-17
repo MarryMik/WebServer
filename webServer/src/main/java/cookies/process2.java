@@ -64,11 +64,11 @@ public class process2 extends HttpServlet {
     		+ "                	<div class=\"button-wrapper\">\r\n"
     		+ "                	<!-- operator's phone -->\r\n"
     		+ "                	<input id=\"userPhone\" name=\"userPhone\" type=\"hidden\" value=\"$$$\"/>\r\n"
-    		+ "                                <button class=\"form-submit-button\" onclick=\"nextTicket(); \" type=\"submit\">Next</button>\r\n"
-    		+ "                    <button class=\"form-submit-button\"  onclick=\"closeTicket(); \" type=\"submit\">Close</button></div>\r\n"
+    		+ "                                <button id =\"newButton\" class=\"form-submit-button\" onclick=\"nextTicket(); \" type=\"submit\">New</button>\r\n"
+    		+ "                    <button class=\"form-submit-button\" id=\"nextButton\" onclick=\"closeTicket(); \" type=\"submit\"  >Next</button></div>\r\n"
     		+ "                </form>\r\n"
     		+ "                <div class=\"applications-title-wrapper\">\r\n"
-    		+ "                    <h4 class=\"title-applications\" id=\"title-id\">Клієнт</h4>\r\n"
+    		+ "                    <h4 class=\"title-applications\" id=\"title-client\">Клієнт</h4>\r\n"
     		+ "                    <h4 class=\"title-applications\" id=\"title-type\">Послуга</h4>\r\n"
     		+ "                    <h4 class=\"title-applications\" id=\"title-status\">Статус</h4>\r\n"
     		+ "                </div>\r\n"
@@ -85,9 +85,6 @@ public class process2 extends HttpServlet {
 		
 		Cookie ck[]=request.getCookies();  
 	    String phone =ck[0].getValue();      
-//		QueueDesk queueDesk = QueueDesk.getInstance();
-		
-//		queueDesk.operator(queueDesk.operatorByPhone(phone)); 
 		response.setContentType("text/html;charset=UTF-8");
 		response.getWriter().write(htmText2.replace("$$$", phone));
 	}

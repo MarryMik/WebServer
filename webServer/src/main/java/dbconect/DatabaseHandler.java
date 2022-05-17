@@ -52,7 +52,7 @@ public class DatabaseHandler extends Config{
 		try {
 			PreparedStatement prSt = getDbConnection().prepareStatement(insert);
 			prSt.setString(1, service.getName());
-			System.out.println(prSt);
+			//System.out.println(prSt);
 			prSt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -97,7 +97,7 @@ public class DatabaseHandler extends Config{
 			ResultSet rs1 = stmt.executeQuery("SELECT Ticket_Type_ID FROM ticket_type WHERE Ticket_Type_Name='"+name+"'");
 			if(rs1.next()) {
 			idService = rs1.getString("Ticket_Type_ID");
-			System.out.println("the id of service: "+idService);
+			//System.out.println("the id of service: "+idService);
 			}
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
@@ -110,7 +110,6 @@ public class DatabaseHandler extends Config{
 		String clientId=null;
 		try {
 			stmt1 = getDbConnection().createStatement();
-			System.out.println("SELECT Client_ID FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
 			ResultSet rs2 = stmt1.executeQuery("SELECT Client_ID FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
 			if(rs2.next()) {
 			 clientId = rs2.getString("Client_ID");
@@ -126,7 +125,6 @@ public class DatabaseHandler extends Config{
 		String clientName=null;
 		try {
 			stmt1 = getDbConnection().createStatement();
-			System.out.println("SELECT * FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
 			ResultSet rs2 = stmt1.executeQuery("SELECT * FROM clients  WHERE PHONE_NUMBER='"+phone+"'");
 			if(rs2.next()) {
 			 clientName = rs2.getString("Client_Name");
@@ -183,7 +181,7 @@ public class DatabaseHandler extends Config{
 			stmt1 = getDbConnection().createStatement();
 			ResultSet rs2 = stmt1.executeQuery("SELECT * FROM operators WHERE Operator_email='"+login+"' and Operator_passw='"+password+"'");
 			if(rs2.next()) {
-				operatorName = rs2.getString("Operator_ID");
+				operatorName = rs2.getString("Operator_Name");
 				operatorPassword= rs2.getString("Operator_passw");
 				operatorLogin = rs2.getString("Operator_email");
 			}
@@ -361,7 +359,7 @@ public class DatabaseHandler extends Config{
 		Statement stmt;
 		try {
 			stmt = getDbConnection().createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT PHONE_NUMBER, Ticket_Type_Name, Ticket_Status_Name, Operator_email FROM requests ;");
+			ResultSet rs = stmt.executeQuery("SELECT PHONE_NUMBER, Ticket_Type_Name, Ticket_Status_Name, Operator_email FROM requests order by Ticket_Status_Name;");
 			while(rs.next()) {
 				String clientPhone= rs.getString("PHONE_NUMBER");
 				String serviceName= rs.getString("Ticket_Type_Name");
@@ -374,7 +372,7 @@ public class DatabaseHandler extends Config{
 				if(operatorLogin!=null ) {
 					Operator operator = queueDesk.operatorByPhone(operatorLogin);
 					   operator = queueDesk.operator(operator, request);
-					   System.out.println(operator);
+					   //System.out.println(operator);
 					   if(status.equals("CLOSED")) {
 							queueDesk.close(operator);
 						}
@@ -439,32 +437,7 @@ public class DatabaseHandler extends Config{
 		
 	}
 	
-//	public void closeRequest(Request request, Operator operator){
-//		String idRequest=this.getIdRequestForClosing(request.getClient().getPhone(), "INPROGRESS", operator.getPhone());
-//		String idOperator=this.getIdOperatorbyPhone(operator.getPhone());
-//		String update ="UPDATE `your_contract`.`tickets_assignments` SET `Is_Active` = '0'"
-//	+" WHERE (`Ticket_ID` = '?') and (`OPERATOR_ID` = '?');";
-//		try {
-//			PreparedStatement prSt = getDbConnection().prepareStatement(update);
-//			prSt.setString(1, idRequest);
-//			prSt.setString(2, idOperator);
-//			prSt.executeUpdate();
-//		} catch (ClassNotFoundException | SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}	
-//		
-//		String update2 ="UPDATE `your_contract`.`tickets` SET `Ticket_Status_ID` = '3' WHERE (`Ticket_ID` = '?');";
-//		try {
-//			PreparedStatement prSt1 = getDbConnection().prepareStatement(update2);
-//			prSt1.setString(1, idRequest);
-//			prSt1.executeUpdate();
-//		} catch (ClassNotFoundException | SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}	
-//		
-//	}
+
 	
 	public void closeRequestbyOperator(Operator operator) {
 		List <String> requestsByOperator = new ArrayList<String>();
@@ -490,11 +463,5 @@ public class DatabaseHandler extends Config{
 						e.printStackTrace();
 					}	
 	}
-/*	
- *  public void deleteOperator(Operator operator){}
- *  public void deleteClient(Client client){}
- *  public void deleteService(Service service){}
- *  public void deleteRequest(Request request){}
- *  public void deleteOperator(Operator operator){}
- */
+
 }

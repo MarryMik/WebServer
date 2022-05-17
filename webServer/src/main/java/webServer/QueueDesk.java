@@ -31,7 +31,7 @@ public class QueueDesk {
 	public Client addClient(String name, String phone) {
 		Client client = new Client(name,phone);
 		clients.add(client);
-		System.out.println("QueueDesk.addClient(), "+client);
+		//System.out.println("QueueDesk.addClient(), "+client);
 		db.addClient(client);
 		return client;
 	}
@@ -95,7 +95,7 @@ public class QueueDesk {
 	public Operator addOperator(String phone, String password, String name, String acesscode) {
 		Operator operator = new Operator(phone, password, name);
 		operators.add(operator);
-		System.out.println("QueueDesk.addOperator(), " + operator);
+		//System.out.println("QueueDesk.addOperator(), " + operator);
 		db.addOperator(operator, "1");
 		return operator;
 	}
@@ -148,7 +148,7 @@ public class QueueDesk {
 					result = operator;					
 		}
 
-		System.out.println("QueueDesk.operator(operator, request), " + operator+ " "+ request);
+		//System.out.println("QueueDesk.operator(operator, request), " + operator+ " "+ request);
 		return result;
 	}
 	
@@ -175,7 +175,7 @@ public class QueueDesk {
 	public Request addRequest(Client client, Service Service) {
 		Request request = new Request(client,Service);
 		requests.add(request);
-		System.out.println("QueueDesk.addRequest(), " + request);
+		//System.out.println("QueueDesk.addRequest(), " + request);
 		db.addRequest(request);
 		return request;
 	}
@@ -192,7 +192,7 @@ public class QueueDesk {
 				break;
 			}
 		}
-		System.out.println("QueueDesk.close(), " + operator);
+		//System.out.println("QueueDesk.close(), " + operator);
 	}
 	
 	public void closeInDB(Operator operator) {
@@ -203,7 +203,7 @@ public class QueueDesk {
 					break;
 				}
 			}
-			System.out.println("QueueDesk.closeInDB(), " + operator);
+			//System.out.println("QueueDesk.closeInDB(), " + operator);
 		}
 	
 	public List<Request> allRequests(){

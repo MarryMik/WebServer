@@ -8,12 +8,15 @@ fetch('http://localhost:8080/webServer/get_requests')
 .then((responce)=>responce.json())
 .then((json) => {
 	newH4 = json;
-	console.log(newH4);
 	
 	newH4.forEach(h4 =>{
-		createNewDiv();
-		console.log(h4.id+" "+h4.service.name+" "+h4.status);
-		return createNewH4s(h4.id, h4.service.name, h4.status)
+		console.log(h4.status);
+		if(h4.status==="CLOSED"){
+			
+		}else{
+			createNewDiv();
+			return createNewH4s(h4.id, h4.service.name, h4.status);
+		}
 	})
 });
 
@@ -22,7 +25,6 @@ function createNewDiv(){
 	let createdDiv = document.createElement("div");
 	createdDiv.className="application-wrapper";
 	createdDiv.id="application-wrapper"+divIdCounter;
-	console.log("id:" +createdDiv.id);
 	appendDiv(createdDiv);
 }
 function appendDiv(div){

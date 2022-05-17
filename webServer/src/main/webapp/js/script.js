@@ -47,13 +47,18 @@ myForm.addEventListener('submit', function(e){
         params.append('phone', document.getElementById('phone').value);
         params.append('selected', document.getElementById('select').value);
         const fetchSettings = {method: 'POST', body: params};
-        fetch('http://localhost:8080/webServer/add_request', fetchSettings);
+        fetch('http://localhost:8080/webServer/add_request', fetchSettings).then((response)=>response.json())
+		 .then((json) => {
+			newRequest = json;
+			newRequest.forEach(h5 =>{
+			return messageAlert(h5.id);
+	})
+	});;
  
       
   });
 
+function messageAlert(id){
+	alert("Вітаю, ваш номер в черзі: "+id);
+}
 
-
-
-//додавання запросу
-//зміна статусу з боку оператора

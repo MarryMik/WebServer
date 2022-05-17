@@ -70,6 +70,10 @@
      align-items: flex-start;
      width: 10%;
  }
+ #title-client{
+ align-items: flex-start;
+     width: 33%;
+ }
  #type-application, #title-type{
     align-items: flex-start;
     width: 65%;

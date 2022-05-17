@@ -3,6 +3,12 @@ const divRequests = document.getElementById('requests');
 let divIdCounter=0;
 //print the queue
 
+const h4Name = document.getElementById('application-wrapper1');
+//let newButton =document.getElementsByClassName("form-submit-button");
+//document.getElementsByClassName("form-submit-button").style.margin = "0px 0px 30px 0px";
+console.log(h4Name);
+document.getElementById('nextButton').style.visibility="hidden";
+document.getElementById('nextButton').style.margin = "0px 0px 30px 0px";
 
 
 
@@ -16,10 +22,10 @@ let divIdCounter=0;
          .then((response)=>response.json())
 		 .then((json) => {
 			newH4 = json;
-			console.log(newH4);
 			newH4.forEach(h4 =>{
-			createNewDiv();
-			console.log(h4);
+			createNewDiv();	
+			document.getElementById('newButton').style.visibility="hidden";
+			document.getElementById('nextButton').style.visibility="visible";
 			return createNewH4s(h4.client.name+" "+h4.client.phone,h4.service.name,h4.status);
 	})
 	});
@@ -83,3 +89,16 @@ function nextTicket(){
 }
 
 
+
+fetch('http://localhost:8080/webServer/get_requests')
+.then((response) => response.json())
+.then((json) => {
+	newOptions = json;
+	console.log(newOptions);
+});
+fetch('http://localhost:8080/webServer/CommandOperators')
+.then((response) => response.json())
+.then((json) => {
+	newOptions = json;
+	console.log(newOptions);
+});
